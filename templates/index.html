@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Compiler Visualizer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background: #1976d2;
+            color: white;
+            padding: 24px 0 16px 0;
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 32px;
+            max-width: 1400px;
+            margin: 32px auto;
+            padding: 0 16px;
+        }
+        .panel {
+            background: white;
+            padding: 28px 24px 24px 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            min-width: 320px;
+            flex: 1 1 350px;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            min-height: 420px;
+        }
+        .panel.visual {
+            max-width: 800px;
+            min-width: 350px;
+            flex: 2 1 500px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 180px;
+            max-height: 400px;
+            resize: vertical;
+            margin-bottom: 18px;
+            padding: 12px;
+            border: 1.5px solid #b0bec5;
+            border-radius: 6px;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1rem;
+            background: #f8fafc;
+            transition: border 0.2s;
+        }
+        textarea:focus {
+            border: 1.5px solid #1976d2;
+            outline: none;
+        }
+        button {
+            background: linear-gradient(90deg, #1976d2 60%, #42a5f5 100%);
+            color: white;
+            padding: 12px 0;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #1565c0 60%, #1976d2 100%);
+        }
+        .tab-bar {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+        .tab-button {
+            padding: 8px 16px;
+            border: none;
+            background: #e3f2fd;
+            color: #1976d2;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 15px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .tab-button.active {
+            background: #1976d2;
+            color: #fff;
+        }
+        .tab-content {
+            display: none;
+            background: #eaf6ff;
+            padding: 18px;
+            border-radius: 0 0 8px 8px;
+            min-height: 200px;
+            font-size: 15px;
+            margin-top: -4px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .error {
+            color: #d32f2f;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        .token-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 18px;
+            background: #eaf6ff;
+            padding: 18px;
+            border-radius: 8px;
+        }
+        .token {
+            background: #e3f2fd;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 15px;
+            box-shadow: 0 1px 2px rgba(25, 118, 210, 0.04);
+            display: inline-block;
+        }
+        .token-type {
+            color: #1976d2;
+            font-weight: bold;
+        }
+        .token-value {
+            color: #333;
+        }
+        .ast-container {
+            width: 100%;
+            min-height: 180px;
+            max-height: 420px;
+            overflow: auto;
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #e3e3e3;
+            margin-bottom: 18px;
+        }
+        .symbol-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .symbol-table th, .symbol-table td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        .symbol-table th {
+            background-color: #e3f2fd;
+            font-weight: bold;
+        }
+        .symbol-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .rich-symbol-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: #181c20;
+            color: #fff;
+        }
+        .rich-symbol-table th, .rich-symbol-table td {
+            border: 1px solid #222;
+            padding: 10px 14px;
+            text-align: left;
+        }
+        .rich-symbol-table th {
+            background-color: #d6ecfd;
+            color: #222;
+            font-weight: bold;
+        }
+        .rich-symbol-table tr:nth-child(even) {
+            background-color: #23272b;
+        }
+        .rich-symbol-table tr:nth-child(odd) {
+            background-color: #181c20;
+        }
+        @media (max-width: 1100px) {
+            .container {
+                flex-direction: column;
+                gap: 24px;
+            }
+            .panel.visual {
+                max-width: 100%;
+            }
+        }
+        @media (max-width: 700px) {
+            .header {
+                font-size: 1.3rem;
+                padding: 16px 0 10px 0;
+            }
+            .panel, .panel.visual {
+                padding: 16px 6px 12px 6px;
+                min-width: 0;
+            }
+            textarea {
+                min-height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">C Compiler Visualizer</div>
+    <div class="container">
+        <div class="panel">
+            <h2 style="margin-top:0;font-size:1.3rem;">Input Code</h2>
+            <textarea id="codeInput" placeholder="Enter C code here...">
+int add(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    int x = 5;
+    int y = 10;
+    int z = add(x, y);
+    return z;
+}</textarea>
+            <button onclick="analyzeCode()">Analyze</button>
+            <div id="error" class="error"></div>
+        </div>
+        <div class="panel visual">
+            <h2 style="margin-top:0;font-size:1.3rem;">Visualization</h2>
+            <div class="tab-bar">
+                <button class="tab-button active" onclick="showTab('tokens-tab')">Tokens</button>
+                <button class="tab-button" onclick="showTab('symbols-tab')">Symbol Table</button>
+                <button class="tab-button" onclick="showTab('ast-tab')">AST</button>
+                <button class="tab-button" onclick="showTab('parse-tab')">Parse Tree</button>
+                <button class="tab-button" onclick="showTab('parsetable-tab')">Parse Table</button>
+                <button class="tab-button" onclick="showTab('ir-tab')">IR</button>
+            </div>
+            <div id="tokens-tab" class="tab-content active">
+                <div id="tokens-container"></div>
+            </div>
+            <div id="symbols-tab" class="tab-content">
+                <div id="symbols-container"></div>
+            </div>
+            <div id="ast-tab" class="tab-content">
+                <button id="toggleAstMode" style="margin-bottom:10px;padding:4px 12px;font-size:13px;border-radius:5px;border:1px solid #1976d2;background:#e3f2fd;color:#1976d2;cursor:pointer;">Show JSON</button>
+                <div id="ast-container"></div>
+            </div>
+            <div id="parse-tab" class="tab-content">
+                <div id="parse-container"></div>
+            </div>
+            <div id="parsetable-tab" class="tab-content">
+                <div id="parsetable-container"></div>
+            </div>
+            <div id="ir-tab" class="tab-content">
+                <div id="ir-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Deactivate all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected tab content and activate its button
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+
+        // Set the first tab as active on page load
+        window.onload = function() {
+            showTab('tokens-tab');
+        };
+
+        let astMode = 'svg';
+        let astSVG = '';
+        let astDict = {};
+
+        function analyzeCode() {
+            const code = document.getElementById('codeInput').value;
+            const errorDiv = document.getElementById('error');
+            fetch('/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ code: code })
+            })
+            .then(response => response.json())
+            .then(data => {
+                errorDiv.textContent = '';
+                if (data.error) {
+                    errorDiv.textContent = 'Error: ' + data.error;
+                    return;
+                }
+
+                // Display tokens
+                const tokensContainer = document.getElementById('tokens-container');
+                if (tokensContainer) {
+                    tokensContainer.innerHTML = `<div class="token-list">` + data.tokens.map(token => 
+                        `<div class="token">
+                            <span class="token-type">${token.type}</span>
+                            <span class="token-value">${token.value}</span>
+                        </div>`
+                    ).join(' ') + `</div>`;
+                }
+
+                // Store AST SVG and dict for toggling
+                astSVG = data.ast_svg;
+                astDict = data.ast_dict;
+                astMode = 'svg';
+                const astContainer = document.getElementById('ast-container');
+                if (astContainer) {
+                    astContainer.innerHTML = astSVG;
+                }
+                const toggleAstBtn = document.getElementById('toggleAstMode');
+                if (toggleAstBtn) {
+                    toggleAstBtn.textContent = 'Show JSON';
+                }
+
+                // Display Parse Tree
+                const parseContainer = document.getElementById('parse-container');
+                if (parseContainer) {
+                    parseContainer.innerHTML = data.parse_tree_svg;
+                }
+
+                // Display Parse Table
+                const parsetableContainer = document.getElementById('parsetable-container');
+                if (parsetableContainer) {
+                    let parseTableMode = 'table';
+                    parsetableContainer.innerHTML = `
+                        <button id='toggleParseTableMode' style='margin-bottom:10px;padding:4px 12px;font-size:13px;border-radius:5px;border:1px solid #1976d2;background:#e3f2fd;color:#1976d2;cursor:pointer;'>Show JSON</button>
+                        <div id='parseTableContent'></div>
+                    `;
+
+                    function renderParseTable() {
+                        const parseTableContent = document.getElementById('parseTableContent');
+                        if (!parseTableContent) return;
+
+                        if (parseTableMode === 'json') {
+                            parseTableContent.innerHTML = `<pre style='font-size:13px;line-height:1.3;background:#f8fafc;color:#222;padding:12px;border-radius:8px;overflow-x:auto;'>${JSON.stringify(data.parse_table, null, 2)}</pre>`;
+                        } else {
+                            function renderTable(table, title) {
+                                let html = `<h4 style="margin:10px 0 4px 0;">${title}</h4>`;
+                                html += '<div style="overflow-x:auto;"><table class="symbol-table rich-symbol-table" style="font-size:13px;">';
+                                const allCols = new Set();
+                                for (const state in table) {
+                                    for (const symbol in table[state]) {
+                                        allCols.add(symbol);
+                                    }
+                                }
+                                const cols = Array.from(allCols).sort();
+                                html += '<tr><th>State</th>' + cols.map(c => `<th>${c}</th>`).join('') + '</tr>';
+                                for (const state in table) {
+                                    html += `<tr><td>${state}</td>`;
+                                    for (const col of cols) {
+                                        html += `<td>${table[state][col] !== undefined ? table[state][col] : ''}</td>`;
+                                    }
+                                    html += '</tr>';
+                                }
+                                html += '</table></div>';
+                                return html;
+                            }
+
+                            let html = '';
+                            if (data.parse_table.action && Object.keys(data.parse_table.action).length > 0) {
+                                html += renderTable(data.parse_table.action, 'ACTION Table');
+                            }
+                            if (data.parse_table.goto && Object.keys(data.parse_table.goto).length > 0) {
+                                html += renderTable(data.parse_table.goto, 'GOTO Table');
+                            }
+                            parseTableContent.innerHTML = html;
+                        }
+                    }
+
+                    const toggleButton = document.getElementById('toggleParseTableMode');
+                    if (toggleButton) {
+                        toggleButton.onclick = function() {
+                            parseTableMode = (parseTableMode === 'table') ? 'json' : 'table';
+                            this.textContent = (parseTableMode === 'table') ? 'Show JSON' : 'Show Table';
+                            renderParseTable();
+                        };
+                    }
+                    renderParseTable();
+                }
+
+                // Display Symbol Table
+                const symbolsContainer = document.getElementById('symbols-container');
+                if (symbolsContainer) {
+                    const table = document.createElement('table');
+                    table.className = 'symbol-table rich-symbol-table';
+                    table.innerHTML = `
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Scope</th>
+                                <th>Function</th>
+                                <th>Memory address</th>
+                                <th>Value</th>
+                                <th>Additional Info</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.symbol_table.map(info => `
+                                <tr>
+                                    <td>${info.name}</td>
+                                    <td>${info.kind}</td>
+                                    <td>${info.scope}</td>
+                                    <td>${info.function}</td>
+                                    <td>${info.address}</td>
+                                    <td>${info.value}</td>
+                                    <td>${info.additional_info}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    `;
+                    symbolsContainer.innerHTML = '';
+                    symbolsContainer.appendChild(table);
+                }
+
+                // Display IR
+                const irContainer = document.getElementById('ir-container');
+                if (irContainer) {
+                    if (data.ir && data.ir.length > 0) {
+                        irContainer.innerHTML = `<pre style='font-size:13px;line-height:1.3;background:#f8fafc;color:#222;padding:12px;border-radius:8px;overflow-x:auto;'>${data.ir.join('\n')}</pre>`;
+                    } else {
+                        irContainer.innerHTML = '<em>No IR generated.</em>';
+                    }
+                }
+            })
+            .catch(error => {
+                errorDiv.textContent = 'Error: ' + error.message;
+            });
+        }
+
+        // Toggle AST view
+        document.getElementById('toggleAstMode').onclick = function() {
+            astMode = (astMode === 'svg') ? 'json' : 'svg';
+            this.textContent = (astMode === 'svg') ? 'Show JSON' : 'Show SVG';
+            const astContainer = document.getElementById('ast-container');
+            if (astMode === 'svg') {
+                astContainer.innerHTML = astSVG;
+            } else {
+                astContainer.innerHTML = `<pre style="font-size:13px;line-height:1.3;background:#f8fafc;color:#222;padding:12px;border-radius:8px;overflow-x:auto;">${JSON.stringify(astDict, null, 2)}</pre>`;
+            }
+        };
+    </script>
+</body>
+</html> 
