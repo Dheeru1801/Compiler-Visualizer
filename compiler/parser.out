@@ -1,0 +1,1903 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> external_declarations
+Rule 2     external_declarations -> external_declarations external_declaration
+Rule 3     external_declarations -> external_declaration
+Rule 4     external_declaration -> type ID LPAREN params RPAREN block
+Rule 5     external_declaration -> statement
+Rule 6     params -> params COMMA param
+Rule 7     params -> param
+Rule 8     params -> <empty>
+Rule 9     param -> type ID
+Rule 10    block -> LBRACE statements RBRACE
+Rule 11    statements -> statements statement
+Rule 12    statements -> statement
+Rule 13    statement -> type ID ASSIGN expr SEMICOLON
+Rule 14    statement -> type ID SEMICOLON
+Rule 15    statement -> ID ASSIGN expr SEMICOLON
+Rule 16    statement -> block
+Rule 17    statement -> IF LPAREN expr RPAREN statement
+Rule 18    statement -> IF LPAREN expr RPAREN statement ELSE statement
+Rule 19    statement -> WHILE LPAREN expr RPAREN statement
+Rule 20    statement -> RETURN expr SEMICOLON
+Rule 21    statement -> expr SEMICOLON
+Rule 22    type -> INT
+Rule 23    type -> FLOAT
+Rule 24    type -> CHAR
+Rule 25    expr -> expr PLUS term
+Rule 26    expr -> expr MINUS term
+Rule 27    expr -> expr LT term
+Rule 28    expr -> expr GT term
+Rule 29    expr -> expr LE term
+Rule 30    expr -> expr GE term
+Rule 31    expr -> expr EQ term
+Rule 32    expr -> expr NEQ term
+Rule 33    expr -> term
+Rule 34    term -> term MULTIPLY factor
+Rule 35    term -> term DIVIDE factor
+Rule 36    term -> factor
+Rule 37    factor -> NUMBER
+Rule 38    factor -> ID
+Rule 39    factor -> ID LPAREN args RPAREN
+Rule 40    args -> args COMMA expr
+Rule 41    args -> expr
+Rule 42    args -> <empty>
+Rule 43    factor -> LPAREN expr RPAREN
+
+Terminals, with rules where they appear
+
+ASSIGN               : 13 15
+CHAR                 : 24
+COMMA                : 6 40
+DIVIDE               : 35
+ELSE                 : 18
+EQ                   : 31
+FLOAT                : 23
+GE                   : 30
+GT                   : 28
+ID                   : 4 9 13 14 15 38 39
+IF                   : 17 18
+INT                  : 22
+LBRACE               : 10
+LE                   : 29
+LPAREN               : 4 17 18 19 39 43
+LT                   : 27
+MINUS                : 26
+MULTIPLY             : 34
+NEQ                  : 32
+NUMBER               : 37
+PLUS                 : 25
+RBRACE               : 10
+RETURN               : 20
+RPAREN               : 4 17 18 19 39 43
+SEMICOLON            : 13 14 15 20 21
+WHILE                : 19
+error                : 
+
+Nonterminals, with rules where they appear
+
+args                 : 39 40
+block                : 4 16
+expr                 : 13 15 17 18 19 20 21 25 26 27 28 29 30 31 32 40 41 43
+external_declaration : 2 3
+external_declarations : 1 2
+factor               : 34 35 36
+param                : 6 7
+params               : 4 6
+program              : 0
+statement            : 5 11 12 17 18 18 19
+statements           : 10 11
+term                 : 25 26 27 28 29 30 31 32 33 34 35
+type                 : 4 9 13 14
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . external_declarations
+    (2) external_declarations -> . external_declarations external_declaration
+    (3) external_declarations -> . external_declaration
+    (4) external_declaration -> . type ID LPAREN params RPAREN block
+    (5) external_declaration -> . statement
+    (22) type -> . INT
+    (23) type -> . FLOAT
+    (24) type -> . CHAR
+    (13) statement -> . type ID ASSIGN expr SEMICOLON
+    (14) statement -> . type ID SEMICOLON
+    (15) statement -> . ID ASSIGN expr SEMICOLON
+    (16) statement -> . block
+    (17) statement -> . IF LPAREN expr RPAREN statement
+    (18) statement -> . IF LPAREN expr RPAREN statement ELSE statement
+    (19) statement -> . WHILE LPAREN expr RPAREN statement
+    (20) statement -> . RETURN expr SEMICOLON
+    (21) statement -> . expr SEMICOLON
+    (10) block -> . LBRACE statements RBRACE
+    (25) expr -> . expr PLUS term
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr LT term
+    (28) expr -> . expr GT term
+    (29) expr -> . expr LE term
+    (30) expr -> . expr GE term
+    (31) expr -> . expr EQ term
+    (32) expr -> . expr NEQ term
+    (33) expr -> . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    INT             shift and go to state 9
+    FLOAT           shift and go to state 10
+    CHAR            shift and go to state 11
+    ID              shift and go to state 5
+    IF              shift and go to state 13
+    WHILE           shift and go to state 14
+    RETURN          shift and go to state 15
+    LBRACE          shift and go to state 16
+    NUMBER          shift and go to state 19
+    LPAREN          shift and go to state 6
+
+    program                        shift and go to state 1
+    external_declarations          shift and go to state 2
+    external_declaration           shift and go to state 3
+    type                           shift and go to state 4
+    block                          shift and go to state 7
+    statement                      shift and go to state 8
+    expr                           shift and go to state 12
+    term                           shift and go to state 17
+    factor                         shift and go to state 18
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> external_declarations .
+    (2) external_declarations -> external_declarations . external_declaration
+    (4) external_declaration -> . type ID LPAREN params RPAREN block
+    (5) external_declaration -> . statement
+    (22) type -> . INT
+    (23) type -> . FLOAT
+    (24) type -> . CHAR
+    (13) statement -> . type ID ASSIGN expr SEMICOLON
+    (14) statement -> . type ID SEMICOLON
+    (15) statement -> . ID ASSIGN expr SEMICOLON
+    (16) statement -> . block
+    (17) statement -> . IF LPAREN expr RPAREN statement
+    (18) statement -> . IF LPAREN expr RPAREN statement ELSE statement
+    (19) statement -> . WHILE LPAREN expr RPAREN statement
+    (20) statement -> . RETURN expr SEMICOLON
+    (21) statement -> . expr SEMICOLON
+    (10) block -> . LBRACE statements RBRACE
+    (25) expr -> . expr PLUS term
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr LT term
+    (28) expr -> . expr GT term
+    (29) expr -> . expr LE term
+    (30) expr -> . expr GE term
+    (31) expr -> . expr EQ term
+    (32) expr -> . expr NEQ term
+    (33) expr -> . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    $end            reduce using rule 1 (program -> external_declarations .)
+    INT             shift and go to state 9
+    FLOAT           shift and go to state 10
+    CHAR            shift and go to state 11
+    ID              shift and go to state 5
+    IF              shift and go to state 13
+    WHILE           shift and go to state 14
+    RETURN          shift and go to state 15
+    LBRACE          shift and go to state 16
+    NUMBER          shift and go to state 19
+    LPAREN          shift and go to state 6
+
+    external_declaration           shift and go to state 20
+    type                           shift and go to state 4
+    block                          shift and go to state 7
+    statement                      shift and go to state 8
+    expr                           shift and go to state 12
+    term                           shift and go to state 17
+    factor                         shift and go to state 18
+
+state 3
+
+    (3) external_declarations -> external_declaration .
+
+    INT             reduce using rule 3 (external_declarations -> external_declaration .)
+    FLOAT           reduce using rule 3 (external_declarations -> external_declaration .)
+    CHAR            reduce using rule 3 (external_declarations -> external_declaration .)
+    ID              reduce using rule 3 (external_declarations -> external_declaration .)
+    IF              reduce using rule 3 (external_declarations -> external_declaration .)
+    WHILE           reduce using rule 3 (external_declarations -> external_declaration .)
+    RETURN          reduce using rule 3 (external_declarations -> external_declaration .)
+    LBRACE          reduce using rule 3 (external_declarations -> external_declaration .)
+    NUMBER          reduce using rule 3 (external_declarations -> external_declaration .)
+    LPAREN          reduce using rule 3 (external_declarations -> external_declaration .)
+    $end            reduce using rule 3 (external_declarations -> external_declaration .)
+
+
+state 4
+
+    (4) external_declaration -> type . ID LPAREN params RPAREN block
+    (13) statement -> type . ID ASSIGN expr SEMICOLON
+    (14) statement -> type . ID SEMICOLON
+
+    ID              shift and go to state 21
+
+
+state 5
+
+    (15) statement -> ID . ASSIGN expr SEMICOLON
+    (38) factor -> ID .
+    (39) factor -> ID . LPAREN args RPAREN
+
+    ASSIGN          shift and go to state 22
+    MULTIPLY        reduce using rule 38 (factor -> ID .)
+    DIVIDE          reduce using rule 38 (factor -> ID .)
+    SEMICOLON       reduce using rule 38 (factor -> ID .)
+    PLUS            reduce using rule 38 (factor -> ID .)
+    MINUS           reduce using rule 38 (factor -> ID .)
+    LT              reduce using rule 38 (factor -> ID .)
+    GT              reduce using rule 38 (factor -> ID .)
+    LE              reduce using rule 38 (factor -> ID .)
+    GE              reduce using rule 38 (factor -> ID .)
+    EQ              reduce using rule 38 (factor -> ID .)
+    NEQ             reduce using rule 38 (factor -> ID .)
+    LPAREN          shift and go to state 23
+
+
+state 6
+
+    (43) factor -> LPAREN . expr RPAREN
+    (25) expr -> . expr PLUS term
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr LT term
+    (28) expr -> . expr GT term
+    (29) expr -> . expr LE term
+    (30) expr -> . expr GE term
+    (31) expr -> . expr EQ term
+    (32) expr -> . expr NEQ term
+    (33) expr -> . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    expr                           shift and go to state 24
+    term                           shift and go to state 17
+    factor                         shift and go to state 18
+
+state 7
+
+    (16) statement -> block .
+
+    INT             reduce using rule 16 (statement -> block .)
+    FLOAT           reduce using rule 16 (statement -> block .)
+    CHAR            reduce using rule 16 (statement -> block .)
+    ID              reduce using rule 16 (statement -> block .)
+    IF              reduce using rule 16 (statement -> block .)
+    WHILE           reduce using rule 16 (statement -> block .)
+    RETURN          reduce using rule 16 (statement -> block .)
+    LBRACE          reduce using rule 16 (statement -> block .)
+    NUMBER          reduce using rule 16 (statement -> block .)
+    LPAREN          reduce using rule 16 (statement -> block .)
+    $end            reduce using rule 16 (statement -> block .)
+    RBRACE          reduce using rule 16 (statement -> block .)
+    ELSE            reduce using rule 16 (statement -> block .)
+
+
+state 8
+
+    (5) external_declaration -> statement .
+
+    INT             reduce using rule 5 (external_declaration -> statement .)
+    FLOAT           reduce using rule 5 (external_declaration -> statement .)
+    CHAR            reduce using rule 5 (external_declaration -> statement .)
+    ID              reduce using rule 5 (external_declaration -> statement .)
+    IF              reduce using rule 5 (external_declaration -> statement .)
+    WHILE           reduce using rule 5 (external_declaration -> statement .)
+    RETURN          reduce using rule 5 (external_declaration -> statement .)
+    LBRACE          reduce using rule 5 (external_declaration -> statement .)
+    NUMBER          reduce using rule 5 (external_declaration -> statement .)
+    LPAREN          reduce using rule 5 (external_declaration -> statement .)
+    $end            reduce using rule 5 (external_declaration -> statement .)
+
+
+state 9
+
+    (22) type -> INT .
+
+    ID              reduce using rule 22 (type -> INT .)
+
+
+state 10
+
+    (23) type -> FLOAT .
+
+    ID              reduce using rule 23 (type -> FLOAT .)
+
+
+state 11
+
+    (24) type -> CHAR .
+
+    ID              reduce using rule 24 (type -> CHAR .)
+
+
+state 12
+
+    (21) statement -> expr . SEMICOLON
+    (25) expr -> expr . PLUS term
+    (26) expr -> expr . MINUS term
+    (27) expr -> expr . LT term
+    (28) expr -> expr . GT term
+    (29) expr -> expr . LE term
+    (30) expr -> expr . GE term
+    (31) expr -> expr . EQ term
+    (32) expr -> expr . NEQ term
+
+    SEMICOLON       shift and go to state 26
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    LT              shift and go to state 29
+    GT              shift and go to state 30
+    LE              shift and go to state 31
+    GE              shift and go to state 32
+    EQ              shift and go to state 33
+    NEQ             shift and go to state 34
+
+
+state 13
+
+    (17) statement -> IF . LPAREN expr RPAREN statement
+    (18) statement -> IF . LPAREN expr RPAREN statement ELSE statement
+
+    LPAREN          shift and go to state 35
+
+
+state 14
+
+    (19) statement -> WHILE . LPAREN expr RPAREN statement
+
+    LPAREN          shift and go to state 36
+
+
+state 15
+
+    (20) statement -> RETURN . expr SEMICOLON
+    (25) expr -> . expr PLUS term
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr LT term
+    (28) expr -> . expr GT term
+    (29) expr -> . expr LE term
+    (30) expr -> . expr GE term
+    (31) expr -> . expr EQ term
+    (32) expr -> . expr NEQ term
+    (33) expr -> . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    expr                           shift and go to state 37
+    term                           shift and go to state 17
+    factor                         shift and go to state 18
+
+state 16
+
+    (10) block -> LBRACE . statements RBRACE
+    (11) statements -> . statements statement
+    (12) statements -> . statement
+    (13) statement -> . type ID ASSIGN expr SEMICOLON
+    (14) statement -> . type ID SEMICOLON
+    (15) statement -> . ID ASSIGN expr SEMICOLON
+    (16) statement -> . block
+    (17) statement -> . IF LPAREN expr RPAREN statement
+    (18) statement -> . IF LPAREN expr RPAREN statement ELSE statement
+    (19) statement -> . WHILE LPAREN expr RPAREN statement
+    (20) statement -> . RETURN expr SEMICOLON
+    (21) statement -> . expr SEMICOLON
+    (22) type -> . INT
+    (23) type -> . FLOAT
+    (24) type -> . CHAR
+    (10) block -> . LBRACE statements RBRACE
+    (25) expr -> . expr PLUS term
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr LT term
+    (28) expr -> . expr GT term
+    (29) expr -> . expr LE term
+    (30) expr -> . expr GE term
+    (31) expr -> . expr EQ term
+    (32) expr -> . expr NEQ term
+    (33) expr -> . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    ID              shift and go to state 5
+    IF              shift and go to state 13
+    WHILE           shift and go to state 14
+    RETURN          shift and go to state 15
+    INT             shift and go to state 9
+    FLOAT           shift and go to state 10
+    CHAR            shift and go to state 11
+    LBRACE          shift and go to state 16
+    NUMBER          shift and go to state 19
+    LPAREN          shift and go to state 6
+
+    statements                     shift and go to state 38
+    statement                      shift and go to state 39
+    type                           shift and go to state 40
+    expr                           shift and go to state 12
+    block                          shift and go to state 7
+    term                           shift and go to state 17
+    factor                         shift and go to state 18
+
+state 17
+
+    (33) expr -> term .
+    (34) term -> term . MULTIPLY factor
+    (35) term -> term . DIVIDE factor
+
+    SEMICOLON       reduce using rule 33 (expr -> term .)
+    PLUS            reduce using rule 33 (expr -> term .)
+    MINUS           reduce using rule 33 (expr -> term .)
+    LT              reduce using rule 33 (expr -> term .)
+    GT              reduce using rule 33 (expr -> term .)
+    LE              reduce using rule 33 (expr -> term .)
+    GE              reduce using rule 33 (expr -> term .)
+    EQ              reduce using rule 33 (expr -> term .)
+    NEQ             reduce using rule 33 (expr -> term .)
+    RPAREN          reduce using rule 33 (expr -> term .)
+    COMMA           reduce using rule 33 (expr -> term .)
+    MULTIPLY        shift and go to state 41
+    DIVIDE          shift and go to state 42
+
+
+state 18
+
+    (36) term -> factor .
+
+    MULTIPLY        reduce using rule 36 (term -> factor .)
+    DIVIDE          reduce using rule 36 (term -> factor .)
+    SEMICOLON       reduce using rule 36 (term -> factor .)
+    PLUS            reduce using rule 36 (term -> factor .)
+    MINUS           reduce using rule 36 (term -> factor .)
+    LT              reduce using rule 36 (term -> factor .)
+    GT              reduce using rule 36 (term -> factor .)
+    LE              reduce using rule 36 (term -> factor .)
+    GE              reduce using rule 36 (term -> factor .)
+    EQ              reduce using rule 36 (term -> factor .)
+    NEQ             reduce using rule 36 (term -> factor .)
+    RPAREN          reduce using rule 36 (term -> factor .)
+    COMMA           reduce using rule 36 (term -> factor .)
+
+
+state 19
+
+    (37) factor -> NUMBER .
+
+    MULTIPLY        reduce using rule 37 (factor -> NUMBER .)
+    DIVIDE          reduce using rule 37 (factor -> NUMBER .)
+    SEMICOLON       reduce using rule 37 (factor -> NUMBER .)
+    PLUS            reduce using rule 37 (factor -> NUMBER .)
+    MINUS           reduce using rule 37 (factor -> NUMBER .)
+    LT              reduce using rule 37 (factor -> NUMBER .)
+    GT              reduce using rule 37 (factor -> NUMBER .)
+    LE              reduce using rule 37 (factor -> NUMBER .)
+    GE              reduce using rule 37 (factor -> NUMBER .)
+    EQ              reduce using rule 37 (factor -> NUMBER .)
+    NEQ             reduce using rule 37 (factor -> NUMBER .)
+    RPAREN          reduce using rule 37 (factor -> NUMBER .)
+    COMMA           reduce using rule 37 (factor -> NUMBER .)
+
+
+state 20
+
+    (2) external_declarations -> external_declarations external_declaration .
+
+    INT             reduce using rule 2 (external_declarations -> external_declarations external_declaration .)
+    FLOAT           reduce using rule 2 (external_declarations -> external_declarations external_declaration .)
+    CHAR            reduce using rule 2 (external_declarations -> external_declarations external_declaration .)
+    ID              reduce using rule 2 (external_declarations -> external_declarations external_declaration .)
+    IF              reduce using rule 2 (external_declarations -> external_declarations external_declaration .)
+    WHILE           reduce using rule 2 (external_declarations -> external_declarations external_declaration .)
+    RETURN          reduce using rule 2 (external_declarations -> external_declarations external_declaration .)
+    LBRACE          reduce using rule 2 (external_declarations -> external_declarations external_declaration .)
+    NUMBER          reduce using rule 2 (external_declarations -> external_declarations external_declaration .)
+    LPAREN          reduce using rule 2 (external_declarations -> external_declarations external_declaration .)
+    $end            reduce using rule 2 (external_declarations -> external_declarations external_declaration .)
+
+
+state 21
+
+    (4) external_declaration -> type ID . LPAREN params RPAREN block
+    (13) statement -> type ID . ASSIGN expr SEMICOLON
+    (14) statement -> type ID . SEMICOLON
+
+    LPAREN          shift and go to state 43
+    ASSIGN          shift and go to state 44
+    SEMICOLON       shift and go to state 45
+
+
+state 22
+
+    (15) statement -> ID ASSIGN . expr SEMICOLON
+    (25) expr -> . expr PLUS term
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr LT term
+    (28) expr -> . expr GT term
+    (29) expr -> . expr LE term
+    (30) expr -> . expr GE term
+    (31) expr -> . expr EQ term
+    (32) expr -> . expr NEQ term
+    (33) expr -> . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    expr                           shift and go to state 46
+    term                           shift and go to state 17
+    factor                         shift and go to state 18
+
+state 23
+
+    (39) factor -> ID LPAREN . args RPAREN
+    (40) args -> . args COMMA expr
+    (41) args -> . expr
+    (42) args -> .
+    (25) expr -> . expr PLUS term
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr LT term
+    (28) expr -> . expr GT term
+    (29) expr -> . expr LE term
+    (30) expr -> . expr GE term
+    (31) expr -> . expr EQ term
+    (32) expr -> . expr NEQ term
+    (33) expr -> . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    RPAREN          reduce using rule 42 (args -> .)
+    COMMA           reduce using rule 42 (args -> .)
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    args                           shift and go to state 47
+    expr                           shift and go to state 48
+    term                           shift and go to state 17
+    factor                         shift and go to state 18
+
+state 24
+
+    (43) factor -> LPAREN expr . RPAREN
+    (25) expr -> expr . PLUS term
+    (26) expr -> expr . MINUS term
+    (27) expr -> expr . LT term
+    (28) expr -> expr . GT term
+    (29) expr -> expr . LE term
+    (30) expr -> expr . GE term
+    (31) expr -> expr . EQ term
+    (32) expr -> expr . NEQ term
+
+    RPAREN          shift and go to state 49
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    LT              shift and go to state 29
+    GT              shift and go to state 30
+    LE              shift and go to state 31
+    GE              shift and go to state 32
+    EQ              shift and go to state 33
+    NEQ             shift and go to state 34
+
+
+state 25
+
+    (38) factor -> ID .
+    (39) factor -> ID . LPAREN args RPAREN
+
+    MULTIPLY        reduce using rule 38 (factor -> ID .)
+    DIVIDE          reduce using rule 38 (factor -> ID .)
+    RPAREN          reduce using rule 38 (factor -> ID .)
+    PLUS            reduce using rule 38 (factor -> ID .)
+    MINUS           reduce using rule 38 (factor -> ID .)
+    LT              reduce using rule 38 (factor -> ID .)
+    GT              reduce using rule 38 (factor -> ID .)
+    LE              reduce using rule 38 (factor -> ID .)
+    GE              reduce using rule 38 (factor -> ID .)
+    EQ              reduce using rule 38 (factor -> ID .)
+    NEQ             reduce using rule 38 (factor -> ID .)
+    SEMICOLON       reduce using rule 38 (factor -> ID .)
+    COMMA           reduce using rule 38 (factor -> ID .)
+    LPAREN          shift and go to state 23
+
+
+state 26
+
+    (21) statement -> expr SEMICOLON .
+
+    INT             reduce using rule 21 (statement -> expr SEMICOLON .)
+    FLOAT           reduce using rule 21 (statement -> expr SEMICOLON .)
+    CHAR            reduce using rule 21 (statement -> expr SEMICOLON .)
+    ID              reduce using rule 21 (statement -> expr SEMICOLON .)
+    IF              reduce using rule 21 (statement -> expr SEMICOLON .)
+    WHILE           reduce using rule 21 (statement -> expr SEMICOLON .)
+    RETURN          reduce using rule 21 (statement -> expr SEMICOLON .)
+    LBRACE          reduce using rule 21 (statement -> expr SEMICOLON .)
+    NUMBER          reduce using rule 21 (statement -> expr SEMICOLON .)
+    LPAREN          reduce using rule 21 (statement -> expr SEMICOLON .)
+    $end            reduce using rule 21 (statement -> expr SEMICOLON .)
+    RBRACE          reduce using rule 21 (statement -> expr SEMICOLON .)
+    ELSE            reduce using rule 21 (statement -> expr SEMICOLON .)
+
+
+state 27
+
+    (25) expr -> expr PLUS . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    term                           shift and go to state 50
+    factor                         shift and go to state 18
+
+state 28
+
+    (26) expr -> expr MINUS . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    term                           shift and go to state 51
+    factor                         shift and go to state 18
+
+state 29
+
+    (27) expr -> expr LT . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    term                           shift and go to state 52
+    factor                         shift and go to state 18
+
+state 30
+
+    (28) expr -> expr GT . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    term                           shift and go to state 53
+    factor                         shift and go to state 18
+
+state 31
+
+    (29) expr -> expr LE . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    term                           shift and go to state 54
+    factor                         shift and go to state 18
+
+state 32
+
+    (30) expr -> expr GE . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    term                           shift and go to state 55
+    factor                         shift and go to state 18
+
+state 33
+
+    (31) expr -> expr EQ . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    term                           shift and go to state 56
+    factor                         shift and go to state 18
+
+state 34
+
+    (32) expr -> expr NEQ . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    term                           shift and go to state 57
+    factor                         shift and go to state 18
+
+state 35
+
+    (17) statement -> IF LPAREN . expr RPAREN statement
+    (18) statement -> IF LPAREN . expr RPAREN statement ELSE statement
+    (25) expr -> . expr PLUS term
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr LT term
+    (28) expr -> . expr GT term
+    (29) expr -> . expr LE term
+    (30) expr -> . expr GE term
+    (31) expr -> . expr EQ term
+    (32) expr -> . expr NEQ term
+    (33) expr -> . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    expr                           shift and go to state 58
+    term                           shift and go to state 17
+    factor                         shift and go to state 18
+
+state 36
+
+    (19) statement -> WHILE LPAREN . expr RPAREN statement
+    (25) expr -> . expr PLUS term
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr LT term
+    (28) expr -> . expr GT term
+    (29) expr -> . expr LE term
+    (30) expr -> . expr GE term
+    (31) expr -> . expr EQ term
+    (32) expr -> . expr NEQ term
+    (33) expr -> . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    expr                           shift and go to state 59
+    term                           shift and go to state 17
+    factor                         shift and go to state 18
+
+state 37
+
+    (20) statement -> RETURN expr . SEMICOLON
+    (25) expr -> expr . PLUS term
+    (26) expr -> expr . MINUS term
+    (27) expr -> expr . LT term
+    (28) expr -> expr . GT term
+    (29) expr -> expr . LE term
+    (30) expr -> expr . GE term
+    (31) expr -> expr . EQ term
+    (32) expr -> expr . NEQ term
+
+    SEMICOLON       shift and go to state 60
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    LT              shift and go to state 29
+    GT              shift and go to state 30
+    LE              shift and go to state 31
+    GE              shift and go to state 32
+    EQ              shift and go to state 33
+    NEQ             shift and go to state 34
+
+
+state 38
+
+    (10) block -> LBRACE statements . RBRACE
+    (11) statements -> statements . statement
+    (13) statement -> . type ID ASSIGN expr SEMICOLON
+    (14) statement -> . type ID SEMICOLON
+    (15) statement -> . ID ASSIGN expr SEMICOLON
+    (16) statement -> . block
+    (17) statement -> . IF LPAREN expr RPAREN statement
+    (18) statement -> . IF LPAREN expr RPAREN statement ELSE statement
+    (19) statement -> . WHILE LPAREN expr RPAREN statement
+    (20) statement -> . RETURN expr SEMICOLON
+    (21) statement -> . expr SEMICOLON
+    (22) type -> . INT
+    (23) type -> . FLOAT
+    (24) type -> . CHAR
+    (10) block -> . LBRACE statements RBRACE
+    (25) expr -> . expr PLUS term
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr LT term
+    (28) expr -> . expr GT term
+    (29) expr -> . expr LE term
+    (30) expr -> . expr GE term
+    (31) expr -> . expr EQ term
+    (32) expr -> . expr NEQ term
+    (33) expr -> . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    RBRACE          shift and go to state 61
+    ID              shift and go to state 5
+    IF              shift and go to state 13
+    WHILE           shift and go to state 14
+    RETURN          shift and go to state 15
+    INT             shift and go to state 9
+    FLOAT           shift and go to state 10
+    CHAR            shift and go to state 11
+    LBRACE          shift and go to state 16
+    NUMBER          shift and go to state 19
+    LPAREN          shift and go to state 6
+
+    statement                      shift and go to state 62
+    type                           shift and go to state 40
+    expr                           shift and go to state 12
+    block                          shift and go to state 7
+    term                           shift and go to state 17
+    factor                         shift and go to state 18
+
+state 39
+
+    (12) statements -> statement .
+
+    RBRACE          reduce using rule 12 (statements -> statement .)
+    ID              reduce using rule 12 (statements -> statement .)
+    IF              reduce using rule 12 (statements -> statement .)
+    WHILE           reduce using rule 12 (statements -> statement .)
+    RETURN          reduce using rule 12 (statements -> statement .)
+    INT             reduce using rule 12 (statements -> statement .)
+    FLOAT           reduce using rule 12 (statements -> statement .)
+    CHAR            reduce using rule 12 (statements -> statement .)
+    LBRACE          reduce using rule 12 (statements -> statement .)
+    NUMBER          reduce using rule 12 (statements -> statement .)
+    LPAREN          reduce using rule 12 (statements -> statement .)
+
+
+state 40
+
+    (13) statement -> type . ID ASSIGN expr SEMICOLON
+    (14) statement -> type . ID SEMICOLON
+
+    ID              shift and go to state 63
+
+
+state 41
+
+    (34) term -> term MULTIPLY . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    factor                         shift and go to state 64
+
+state 42
+
+    (35) term -> term DIVIDE . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    factor                         shift and go to state 65
+
+state 43
+
+    (4) external_declaration -> type ID LPAREN . params RPAREN block
+    (6) params -> . params COMMA param
+    (7) params -> . param
+    (8) params -> .
+    (9) param -> . type ID
+    (22) type -> . INT
+    (23) type -> . FLOAT
+    (24) type -> . CHAR
+
+    RPAREN          reduce using rule 8 (params -> .)
+    COMMA           reduce using rule 8 (params -> .)
+    INT             shift and go to state 9
+    FLOAT           shift and go to state 10
+    CHAR            shift and go to state 11
+
+    type                           shift and go to state 66
+    params                         shift and go to state 67
+    param                          shift and go to state 68
+
+state 44
+
+    (13) statement -> type ID ASSIGN . expr SEMICOLON
+    (25) expr -> . expr PLUS term
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr LT term
+    (28) expr -> . expr GT term
+    (29) expr -> . expr LE term
+    (30) expr -> . expr GE term
+    (31) expr -> . expr EQ term
+    (32) expr -> . expr NEQ term
+    (33) expr -> . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    expr                           shift and go to state 69
+    term                           shift and go to state 17
+    factor                         shift and go to state 18
+
+state 45
+
+    (14) statement -> type ID SEMICOLON .
+
+    INT             reduce using rule 14 (statement -> type ID SEMICOLON .)
+    FLOAT           reduce using rule 14 (statement -> type ID SEMICOLON .)
+    CHAR            reduce using rule 14 (statement -> type ID SEMICOLON .)
+    ID              reduce using rule 14 (statement -> type ID SEMICOLON .)
+    IF              reduce using rule 14 (statement -> type ID SEMICOLON .)
+    WHILE           reduce using rule 14 (statement -> type ID SEMICOLON .)
+    RETURN          reduce using rule 14 (statement -> type ID SEMICOLON .)
+    LBRACE          reduce using rule 14 (statement -> type ID SEMICOLON .)
+    NUMBER          reduce using rule 14 (statement -> type ID SEMICOLON .)
+    LPAREN          reduce using rule 14 (statement -> type ID SEMICOLON .)
+    $end            reduce using rule 14 (statement -> type ID SEMICOLON .)
+    RBRACE          reduce using rule 14 (statement -> type ID SEMICOLON .)
+    ELSE            reduce using rule 14 (statement -> type ID SEMICOLON .)
+
+
+state 46
+
+    (15) statement -> ID ASSIGN expr . SEMICOLON
+    (25) expr -> expr . PLUS term
+    (26) expr -> expr . MINUS term
+    (27) expr -> expr . LT term
+    (28) expr -> expr . GT term
+    (29) expr -> expr . LE term
+    (30) expr -> expr . GE term
+    (31) expr -> expr . EQ term
+    (32) expr -> expr . NEQ term
+
+    SEMICOLON       shift and go to state 70
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    LT              shift and go to state 29
+    GT              shift and go to state 30
+    LE              shift and go to state 31
+    GE              shift and go to state 32
+    EQ              shift and go to state 33
+    NEQ             shift and go to state 34
+
+
+state 47
+
+    (39) factor -> ID LPAREN args . RPAREN
+    (40) args -> args . COMMA expr
+
+    RPAREN          shift and go to state 71
+    COMMA           shift and go to state 72
+
+
+state 48
+
+    (41) args -> expr .
+    (25) expr -> expr . PLUS term
+    (26) expr -> expr . MINUS term
+    (27) expr -> expr . LT term
+    (28) expr -> expr . GT term
+    (29) expr -> expr . LE term
+    (30) expr -> expr . GE term
+    (31) expr -> expr . EQ term
+    (32) expr -> expr . NEQ term
+
+    RPAREN          reduce using rule 41 (args -> expr .)
+    COMMA           reduce using rule 41 (args -> expr .)
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    LT              shift and go to state 29
+    GT              shift and go to state 30
+    LE              shift and go to state 31
+    GE              shift and go to state 32
+    EQ              shift and go to state 33
+    NEQ             shift and go to state 34
+
+
+state 49
+
+    (43) factor -> LPAREN expr RPAREN .
+
+    MULTIPLY        reduce using rule 43 (factor -> LPAREN expr RPAREN .)
+    DIVIDE          reduce using rule 43 (factor -> LPAREN expr RPAREN .)
+    SEMICOLON       reduce using rule 43 (factor -> LPAREN expr RPAREN .)
+    PLUS            reduce using rule 43 (factor -> LPAREN expr RPAREN .)
+    MINUS           reduce using rule 43 (factor -> LPAREN expr RPAREN .)
+    LT              reduce using rule 43 (factor -> LPAREN expr RPAREN .)
+    GT              reduce using rule 43 (factor -> LPAREN expr RPAREN .)
+    LE              reduce using rule 43 (factor -> LPAREN expr RPAREN .)
+    GE              reduce using rule 43 (factor -> LPAREN expr RPAREN .)
+    EQ              reduce using rule 43 (factor -> LPAREN expr RPAREN .)
+    NEQ             reduce using rule 43 (factor -> LPAREN expr RPAREN .)
+    RPAREN          reduce using rule 43 (factor -> LPAREN expr RPAREN .)
+    COMMA           reduce using rule 43 (factor -> LPAREN expr RPAREN .)
+
+
+state 50
+
+    (25) expr -> expr PLUS term .
+    (34) term -> term . MULTIPLY factor
+    (35) term -> term . DIVIDE factor
+
+    SEMICOLON       reduce using rule 25 (expr -> expr PLUS term .)
+    PLUS            reduce using rule 25 (expr -> expr PLUS term .)
+    MINUS           reduce using rule 25 (expr -> expr PLUS term .)
+    LT              reduce using rule 25 (expr -> expr PLUS term .)
+    GT              reduce using rule 25 (expr -> expr PLUS term .)
+    LE              reduce using rule 25 (expr -> expr PLUS term .)
+    GE              reduce using rule 25 (expr -> expr PLUS term .)
+    EQ              reduce using rule 25 (expr -> expr PLUS term .)
+    NEQ             reduce using rule 25 (expr -> expr PLUS term .)
+    RPAREN          reduce using rule 25 (expr -> expr PLUS term .)
+    COMMA           reduce using rule 25 (expr -> expr PLUS term .)
+    MULTIPLY        shift and go to state 41
+    DIVIDE          shift and go to state 42
+
+
+state 51
+
+    (26) expr -> expr MINUS term .
+    (34) term -> term . MULTIPLY factor
+    (35) term -> term . DIVIDE factor
+
+    SEMICOLON       reduce using rule 26 (expr -> expr MINUS term .)
+    PLUS            reduce using rule 26 (expr -> expr MINUS term .)
+    MINUS           reduce using rule 26 (expr -> expr MINUS term .)
+    LT              reduce using rule 26 (expr -> expr MINUS term .)
+    GT              reduce using rule 26 (expr -> expr MINUS term .)
+    LE              reduce using rule 26 (expr -> expr MINUS term .)
+    GE              reduce using rule 26 (expr -> expr MINUS term .)
+    EQ              reduce using rule 26 (expr -> expr MINUS term .)
+    NEQ             reduce using rule 26 (expr -> expr MINUS term .)
+    RPAREN          reduce using rule 26 (expr -> expr MINUS term .)
+    COMMA           reduce using rule 26 (expr -> expr MINUS term .)
+    MULTIPLY        shift and go to state 41
+    DIVIDE          shift and go to state 42
+
+
+state 52
+
+    (27) expr -> expr LT term .
+    (34) term -> term . MULTIPLY factor
+    (35) term -> term . DIVIDE factor
+
+    SEMICOLON       reduce using rule 27 (expr -> expr LT term .)
+    PLUS            reduce using rule 27 (expr -> expr LT term .)
+    MINUS           reduce using rule 27 (expr -> expr LT term .)
+    LT              reduce using rule 27 (expr -> expr LT term .)
+    GT              reduce using rule 27 (expr -> expr LT term .)
+    LE              reduce using rule 27 (expr -> expr LT term .)
+    GE              reduce using rule 27 (expr -> expr LT term .)
+    EQ              reduce using rule 27 (expr -> expr LT term .)
+    NEQ             reduce using rule 27 (expr -> expr LT term .)
+    RPAREN          reduce using rule 27 (expr -> expr LT term .)
+    COMMA           reduce using rule 27 (expr -> expr LT term .)
+    MULTIPLY        shift and go to state 41
+    DIVIDE          shift and go to state 42
+
+
+state 53
+
+    (28) expr -> expr GT term .
+    (34) term -> term . MULTIPLY factor
+    (35) term -> term . DIVIDE factor
+
+    SEMICOLON       reduce using rule 28 (expr -> expr GT term .)
+    PLUS            reduce using rule 28 (expr -> expr GT term .)
+    MINUS           reduce using rule 28 (expr -> expr GT term .)
+    LT              reduce using rule 28 (expr -> expr GT term .)
+    GT              reduce using rule 28 (expr -> expr GT term .)
+    LE              reduce using rule 28 (expr -> expr GT term .)
+    GE              reduce using rule 28 (expr -> expr GT term .)
+    EQ              reduce using rule 28 (expr -> expr GT term .)
+    NEQ             reduce using rule 28 (expr -> expr GT term .)
+    RPAREN          reduce using rule 28 (expr -> expr GT term .)
+    COMMA           reduce using rule 28 (expr -> expr GT term .)
+    MULTIPLY        shift and go to state 41
+    DIVIDE          shift and go to state 42
+
+
+state 54
+
+    (29) expr -> expr LE term .
+    (34) term -> term . MULTIPLY factor
+    (35) term -> term . DIVIDE factor
+
+    SEMICOLON       reduce using rule 29 (expr -> expr LE term .)
+    PLUS            reduce using rule 29 (expr -> expr LE term .)
+    MINUS           reduce using rule 29 (expr -> expr LE term .)
+    LT              reduce using rule 29 (expr -> expr LE term .)
+    GT              reduce using rule 29 (expr -> expr LE term .)
+    LE              reduce using rule 29 (expr -> expr LE term .)
+    GE              reduce using rule 29 (expr -> expr LE term .)
+    EQ              reduce using rule 29 (expr -> expr LE term .)
+    NEQ             reduce using rule 29 (expr -> expr LE term .)
+    RPAREN          reduce using rule 29 (expr -> expr LE term .)
+    COMMA           reduce using rule 29 (expr -> expr LE term .)
+    MULTIPLY        shift and go to state 41
+    DIVIDE          shift and go to state 42
+
+
+state 55
+
+    (30) expr -> expr GE term .
+    (34) term -> term . MULTIPLY factor
+    (35) term -> term . DIVIDE factor
+
+    SEMICOLON       reduce using rule 30 (expr -> expr GE term .)
+    PLUS            reduce using rule 30 (expr -> expr GE term .)
+    MINUS           reduce using rule 30 (expr -> expr GE term .)
+    LT              reduce using rule 30 (expr -> expr GE term .)
+    GT              reduce using rule 30 (expr -> expr GE term .)
+    LE              reduce using rule 30 (expr -> expr GE term .)
+    GE              reduce using rule 30 (expr -> expr GE term .)
+    EQ              reduce using rule 30 (expr -> expr GE term .)
+    NEQ             reduce using rule 30 (expr -> expr GE term .)
+    RPAREN          reduce using rule 30 (expr -> expr GE term .)
+    COMMA           reduce using rule 30 (expr -> expr GE term .)
+    MULTIPLY        shift and go to state 41
+    DIVIDE          shift and go to state 42
+
+
+state 56
+
+    (31) expr -> expr EQ term .
+    (34) term -> term . MULTIPLY factor
+    (35) term -> term . DIVIDE factor
+
+    SEMICOLON       reduce using rule 31 (expr -> expr EQ term .)
+    PLUS            reduce using rule 31 (expr -> expr EQ term .)
+    MINUS           reduce using rule 31 (expr -> expr EQ term .)
+    LT              reduce using rule 31 (expr -> expr EQ term .)
+    GT              reduce using rule 31 (expr -> expr EQ term .)
+    LE              reduce using rule 31 (expr -> expr EQ term .)
+    GE              reduce using rule 31 (expr -> expr EQ term .)
+    EQ              reduce using rule 31 (expr -> expr EQ term .)
+    NEQ             reduce using rule 31 (expr -> expr EQ term .)
+    RPAREN          reduce using rule 31 (expr -> expr EQ term .)
+    COMMA           reduce using rule 31 (expr -> expr EQ term .)
+    MULTIPLY        shift and go to state 41
+    DIVIDE          shift and go to state 42
+
+
+state 57
+
+    (32) expr -> expr NEQ term .
+    (34) term -> term . MULTIPLY factor
+    (35) term -> term . DIVIDE factor
+
+    SEMICOLON       reduce using rule 32 (expr -> expr NEQ term .)
+    PLUS            reduce using rule 32 (expr -> expr NEQ term .)
+    MINUS           reduce using rule 32 (expr -> expr NEQ term .)
+    LT              reduce using rule 32 (expr -> expr NEQ term .)
+    GT              reduce using rule 32 (expr -> expr NEQ term .)
+    LE              reduce using rule 32 (expr -> expr NEQ term .)
+    GE              reduce using rule 32 (expr -> expr NEQ term .)
+    EQ              reduce using rule 32 (expr -> expr NEQ term .)
+    NEQ             reduce using rule 32 (expr -> expr NEQ term .)
+    RPAREN          reduce using rule 32 (expr -> expr NEQ term .)
+    COMMA           reduce using rule 32 (expr -> expr NEQ term .)
+    MULTIPLY        shift and go to state 41
+    DIVIDE          shift and go to state 42
+
+
+state 58
+
+    (17) statement -> IF LPAREN expr . RPAREN statement
+    (18) statement -> IF LPAREN expr . RPAREN statement ELSE statement
+    (25) expr -> expr . PLUS term
+    (26) expr -> expr . MINUS term
+    (27) expr -> expr . LT term
+    (28) expr -> expr . GT term
+    (29) expr -> expr . LE term
+    (30) expr -> expr . GE term
+    (31) expr -> expr . EQ term
+    (32) expr -> expr . NEQ term
+
+    RPAREN          shift and go to state 73
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    LT              shift and go to state 29
+    GT              shift and go to state 30
+    LE              shift and go to state 31
+    GE              shift and go to state 32
+    EQ              shift and go to state 33
+    NEQ             shift and go to state 34
+
+
+state 59
+
+    (19) statement -> WHILE LPAREN expr . RPAREN statement
+    (25) expr -> expr . PLUS term
+    (26) expr -> expr . MINUS term
+    (27) expr -> expr . LT term
+    (28) expr -> expr . GT term
+    (29) expr -> expr . LE term
+    (30) expr -> expr . GE term
+    (31) expr -> expr . EQ term
+    (32) expr -> expr . NEQ term
+
+    RPAREN          shift and go to state 74
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    LT              shift and go to state 29
+    GT              shift and go to state 30
+    LE              shift and go to state 31
+    GE              shift and go to state 32
+    EQ              shift and go to state 33
+    NEQ             shift and go to state 34
+
+
+state 60
+
+    (20) statement -> RETURN expr SEMICOLON .
+
+    INT             reduce using rule 20 (statement -> RETURN expr SEMICOLON .)
+    FLOAT           reduce using rule 20 (statement -> RETURN expr SEMICOLON .)
+    CHAR            reduce using rule 20 (statement -> RETURN expr SEMICOLON .)
+    ID              reduce using rule 20 (statement -> RETURN expr SEMICOLON .)
+    IF              reduce using rule 20 (statement -> RETURN expr SEMICOLON .)
+    WHILE           reduce using rule 20 (statement -> RETURN expr SEMICOLON .)
+    RETURN          reduce using rule 20 (statement -> RETURN expr SEMICOLON .)
+    LBRACE          reduce using rule 20 (statement -> RETURN expr SEMICOLON .)
+    NUMBER          reduce using rule 20 (statement -> RETURN expr SEMICOLON .)
+    LPAREN          reduce using rule 20 (statement -> RETURN expr SEMICOLON .)
+    $end            reduce using rule 20 (statement -> RETURN expr SEMICOLON .)
+    RBRACE          reduce using rule 20 (statement -> RETURN expr SEMICOLON .)
+    ELSE            reduce using rule 20 (statement -> RETURN expr SEMICOLON .)
+
+
+state 61
+
+    (10) block -> LBRACE statements RBRACE .
+
+    INT             reduce using rule 10 (block -> LBRACE statements RBRACE .)
+    FLOAT           reduce using rule 10 (block -> LBRACE statements RBRACE .)
+    CHAR            reduce using rule 10 (block -> LBRACE statements RBRACE .)
+    ID              reduce using rule 10 (block -> LBRACE statements RBRACE .)
+    IF              reduce using rule 10 (block -> LBRACE statements RBRACE .)
+    WHILE           reduce using rule 10 (block -> LBRACE statements RBRACE .)
+    RETURN          reduce using rule 10 (block -> LBRACE statements RBRACE .)
+    LBRACE          reduce using rule 10 (block -> LBRACE statements RBRACE .)
+    NUMBER          reduce using rule 10 (block -> LBRACE statements RBRACE .)
+    LPAREN          reduce using rule 10 (block -> LBRACE statements RBRACE .)
+    $end            reduce using rule 10 (block -> LBRACE statements RBRACE .)
+    RBRACE          reduce using rule 10 (block -> LBRACE statements RBRACE .)
+    ELSE            reduce using rule 10 (block -> LBRACE statements RBRACE .)
+
+
+state 62
+
+    (11) statements -> statements statement .
+
+    RBRACE          reduce using rule 11 (statements -> statements statement .)
+    ID              reduce using rule 11 (statements -> statements statement .)
+    IF              reduce using rule 11 (statements -> statements statement .)
+    WHILE           reduce using rule 11 (statements -> statements statement .)
+    RETURN          reduce using rule 11 (statements -> statements statement .)
+    INT             reduce using rule 11 (statements -> statements statement .)
+    FLOAT           reduce using rule 11 (statements -> statements statement .)
+    CHAR            reduce using rule 11 (statements -> statements statement .)
+    LBRACE          reduce using rule 11 (statements -> statements statement .)
+    NUMBER          reduce using rule 11 (statements -> statements statement .)
+    LPAREN          reduce using rule 11 (statements -> statements statement .)
+
+
+state 63
+
+    (13) statement -> type ID . ASSIGN expr SEMICOLON
+    (14) statement -> type ID . SEMICOLON
+
+    ASSIGN          shift and go to state 44
+    SEMICOLON       shift and go to state 45
+
+
+state 64
+
+    (34) term -> term MULTIPLY factor .
+
+    MULTIPLY        reduce using rule 34 (term -> term MULTIPLY factor .)
+    DIVIDE          reduce using rule 34 (term -> term MULTIPLY factor .)
+    SEMICOLON       reduce using rule 34 (term -> term MULTIPLY factor .)
+    PLUS            reduce using rule 34 (term -> term MULTIPLY factor .)
+    MINUS           reduce using rule 34 (term -> term MULTIPLY factor .)
+    LT              reduce using rule 34 (term -> term MULTIPLY factor .)
+    GT              reduce using rule 34 (term -> term MULTIPLY factor .)
+    LE              reduce using rule 34 (term -> term MULTIPLY factor .)
+    GE              reduce using rule 34 (term -> term MULTIPLY factor .)
+    EQ              reduce using rule 34 (term -> term MULTIPLY factor .)
+    NEQ             reduce using rule 34 (term -> term MULTIPLY factor .)
+    RPAREN          reduce using rule 34 (term -> term MULTIPLY factor .)
+    COMMA           reduce using rule 34 (term -> term MULTIPLY factor .)
+
+
+state 65
+
+    (35) term -> term DIVIDE factor .
+
+    MULTIPLY        reduce using rule 35 (term -> term DIVIDE factor .)
+    DIVIDE          reduce using rule 35 (term -> term DIVIDE factor .)
+    SEMICOLON       reduce using rule 35 (term -> term DIVIDE factor .)
+    PLUS            reduce using rule 35 (term -> term DIVIDE factor .)
+    MINUS           reduce using rule 35 (term -> term DIVIDE factor .)
+    LT              reduce using rule 35 (term -> term DIVIDE factor .)
+    GT              reduce using rule 35 (term -> term DIVIDE factor .)
+    LE              reduce using rule 35 (term -> term DIVIDE factor .)
+    GE              reduce using rule 35 (term -> term DIVIDE factor .)
+    EQ              reduce using rule 35 (term -> term DIVIDE factor .)
+    NEQ             reduce using rule 35 (term -> term DIVIDE factor .)
+    RPAREN          reduce using rule 35 (term -> term DIVIDE factor .)
+    COMMA           reduce using rule 35 (term -> term DIVIDE factor .)
+
+
+state 66
+
+    (9) param -> type . ID
+
+    ID              shift and go to state 75
+
+
+state 67
+
+    (4) external_declaration -> type ID LPAREN params . RPAREN block
+    (6) params -> params . COMMA param
+
+    RPAREN          shift and go to state 76
+    COMMA           shift and go to state 77
+
+
+state 68
+
+    (7) params -> param .
+
+    RPAREN          reduce using rule 7 (params -> param .)
+    COMMA           reduce using rule 7 (params -> param .)
+
+
+state 69
+
+    (13) statement -> type ID ASSIGN expr . SEMICOLON
+    (25) expr -> expr . PLUS term
+    (26) expr -> expr . MINUS term
+    (27) expr -> expr . LT term
+    (28) expr -> expr . GT term
+    (29) expr -> expr . LE term
+    (30) expr -> expr . GE term
+    (31) expr -> expr . EQ term
+    (32) expr -> expr . NEQ term
+
+    SEMICOLON       shift and go to state 78
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    LT              shift and go to state 29
+    GT              shift and go to state 30
+    LE              shift and go to state 31
+    GE              shift and go to state 32
+    EQ              shift and go to state 33
+    NEQ             shift and go to state 34
+
+
+state 70
+
+    (15) statement -> ID ASSIGN expr SEMICOLON .
+
+    INT             reduce using rule 15 (statement -> ID ASSIGN expr SEMICOLON .)
+    FLOAT           reduce using rule 15 (statement -> ID ASSIGN expr SEMICOLON .)
+    CHAR            reduce using rule 15 (statement -> ID ASSIGN expr SEMICOLON .)
+    ID              reduce using rule 15 (statement -> ID ASSIGN expr SEMICOLON .)
+    IF              reduce using rule 15 (statement -> ID ASSIGN expr SEMICOLON .)
+    WHILE           reduce using rule 15 (statement -> ID ASSIGN expr SEMICOLON .)
+    RETURN          reduce using rule 15 (statement -> ID ASSIGN expr SEMICOLON .)
+    LBRACE          reduce using rule 15 (statement -> ID ASSIGN expr SEMICOLON .)
+    NUMBER          reduce using rule 15 (statement -> ID ASSIGN expr SEMICOLON .)
+    LPAREN          reduce using rule 15 (statement -> ID ASSIGN expr SEMICOLON .)
+    $end            reduce using rule 15 (statement -> ID ASSIGN expr SEMICOLON .)
+    RBRACE          reduce using rule 15 (statement -> ID ASSIGN expr SEMICOLON .)
+    ELSE            reduce using rule 15 (statement -> ID ASSIGN expr SEMICOLON .)
+
+
+state 71
+
+    (39) factor -> ID LPAREN args RPAREN .
+
+    MULTIPLY        reduce using rule 39 (factor -> ID LPAREN args RPAREN .)
+    DIVIDE          reduce using rule 39 (factor -> ID LPAREN args RPAREN .)
+    SEMICOLON       reduce using rule 39 (factor -> ID LPAREN args RPAREN .)
+    PLUS            reduce using rule 39 (factor -> ID LPAREN args RPAREN .)
+    MINUS           reduce using rule 39 (factor -> ID LPAREN args RPAREN .)
+    LT              reduce using rule 39 (factor -> ID LPAREN args RPAREN .)
+    GT              reduce using rule 39 (factor -> ID LPAREN args RPAREN .)
+    LE              reduce using rule 39 (factor -> ID LPAREN args RPAREN .)
+    GE              reduce using rule 39 (factor -> ID LPAREN args RPAREN .)
+    EQ              reduce using rule 39 (factor -> ID LPAREN args RPAREN .)
+    NEQ             reduce using rule 39 (factor -> ID LPAREN args RPAREN .)
+    RPAREN          reduce using rule 39 (factor -> ID LPAREN args RPAREN .)
+    COMMA           reduce using rule 39 (factor -> ID LPAREN args RPAREN .)
+
+
+state 72
+
+    (40) args -> args COMMA . expr
+    (25) expr -> . expr PLUS term
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr LT term
+    (28) expr -> . expr GT term
+    (29) expr -> . expr LE term
+    (30) expr -> . expr GE term
+    (31) expr -> . expr EQ term
+    (32) expr -> . expr NEQ term
+    (33) expr -> . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    NUMBER          shift and go to state 19
+    ID              shift and go to state 25
+    LPAREN          shift and go to state 6
+
+    expr                           shift and go to state 79
+    term                           shift and go to state 17
+    factor                         shift and go to state 18
+
+state 73
+
+    (17) statement -> IF LPAREN expr RPAREN . statement
+    (18) statement -> IF LPAREN expr RPAREN . statement ELSE statement
+    (13) statement -> . type ID ASSIGN expr SEMICOLON
+    (14) statement -> . type ID SEMICOLON
+    (15) statement -> . ID ASSIGN expr SEMICOLON
+    (16) statement -> . block
+    (17) statement -> . IF LPAREN expr RPAREN statement
+    (18) statement -> . IF LPAREN expr RPAREN statement ELSE statement
+    (19) statement -> . WHILE LPAREN expr RPAREN statement
+    (20) statement -> . RETURN expr SEMICOLON
+    (21) statement -> . expr SEMICOLON
+    (22) type -> . INT
+    (23) type -> . FLOAT
+    (24) type -> . CHAR
+    (10) block -> . LBRACE statements RBRACE
+    (25) expr -> . expr PLUS term
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr LT term
+    (28) expr -> . expr GT term
+    (29) expr -> . expr LE term
+    (30) expr -> . expr GE term
+    (31) expr -> . expr EQ term
+    (32) expr -> . expr NEQ term
+    (33) expr -> . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    ID              shift and go to state 5
+    IF              shift and go to state 13
+    WHILE           shift and go to state 14
+    RETURN          shift and go to state 15
+    INT             shift and go to state 9
+    FLOAT           shift and go to state 10
+    CHAR            shift and go to state 11
+    LBRACE          shift and go to state 16
+    NUMBER          shift and go to state 19
+    LPAREN          shift and go to state 6
+
+    expr                           shift and go to state 12
+    statement                      shift and go to state 80
+    type                           shift and go to state 40
+    block                          shift and go to state 7
+    term                           shift and go to state 17
+    factor                         shift and go to state 18
+
+state 74
+
+    (19) statement -> WHILE LPAREN expr RPAREN . statement
+    (13) statement -> . type ID ASSIGN expr SEMICOLON
+    (14) statement -> . type ID SEMICOLON
+    (15) statement -> . ID ASSIGN expr SEMICOLON
+    (16) statement -> . block
+    (17) statement -> . IF LPAREN expr RPAREN statement
+    (18) statement -> . IF LPAREN expr RPAREN statement ELSE statement
+    (19) statement -> . WHILE LPAREN expr RPAREN statement
+    (20) statement -> . RETURN expr SEMICOLON
+    (21) statement -> . expr SEMICOLON
+    (22) type -> . INT
+    (23) type -> . FLOAT
+    (24) type -> . CHAR
+    (10) block -> . LBRACE statements RBRACE
+    (25) expr -> . expr PLUS term
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr LT term
+    (28) expr -> . expr GT term
+    (29) expr -> . expr LE term
+    (30) expr -> . expr GE term
+    (31) expr -> . expr EQ term
+    (32) expr -> . expr NEQ term
+    (33) expr -> . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    ID              shift and go to state 5
+    IF              shift and go to state 13
+    WHILE           shift and go to state 14
+    RETURN          shift and go to state 15
+    INT             shift and go to state 9
+    FLOAT           shift and go to state 10
+    CHAR            shift and go to state 11
+    LBRACE          shift and go to state 16
+    NUMBER          shift and go to state 19
+    LPAREN          shift and go to state 6
+
+    expr                           shift and go to state 12
+    statement                      shift and go to state 81
+    type                           shift and go to state 40
+    block                          shift and go to state 7
+    term                           shift and go to state 17
+    factor                         shift and go to state 18
+
+state 75
+
+    (9) param -> type ID .
+
+    RPAREN          reduce using rule 9 (param -> type ID .)
+    COMMA           reduce using rule 9 (param -> type ID .)
+
+
+state 76
+
+    (4) external_declaration -> type ID LPAREN params RPAREN . block
+    (10) block -> . LBRACE statements RBRACE
+
+    LBRACE          shift and go to state 16
+
+    block                          shift and go to state 82
+
+state 77
+
+    (6) params -> params COMMA . param
+    (9) param -> . type ID
+    (22) type -> . INT
+    (23) type -> . FLOAT
+    (24) type -> . CHAR
+
+    INT             shift and go to state 9
+    FLOAT           shift and go to state 10
+    CHAR            shift and go to state 11
+
+    param                          shift and go to state 83
+    type                           shift and go to state 66
+
+state 78
+
+    (13) statement -> type ID ASSIGN expr SEMICOLON .
+
+    INT             reduce using rule 13 (statement -> type ID ASSIGN expr SEMICOLON .)
+    FLOAT           reduce using rule 13 (statement -> type ID ASSIGN expr SEMICOLON .)
+    CHAR            reduce using rule 13 (statement -> type ID ASSIGN expr SEMICOLON .)
+    ID              reduce using rule 13 (statement -> type ID ASSIGN expr SEMICOLON .)
+    IF              reduce using rule 13 (statement -> type ID ASSIGN expr SEMICOLON .)
+    WHILE           reduce using rule 13 (statement -> type ID ASSIGN expr SEMICOLON .)
+    RETURN          reduce using rule 13 (statement -> type ID ASSIGN expr SEMICOLON .)
+    LBRACE          reduce using rule 13 (statement -> type ID ASSIGN expr SEMICOLON .)
+    NUMBER          reduce using rule 13 (statement -> type ID ASSIGN expr SEMICOLON .)
+    LPAREN          reduce using rule 13 (statement -> type ID ASSIGN expr SEMICOLON .)
+    $end            reduce using rule 13 (statement -> type ID ASSIGN expr SEMICOLON .)
+    RBRACE          reduce using rule 13 (statement -> type ID ASSIGN expr SEMICOLON .)
+    ELSE            reduce using rule 13 (statement -> type ID ASSIGN expr SEMICOLON .)
+
+
+state 79
+
+    (40) args -> args COMMA expr .
+    (25) expr -> expr . PLUS term
+    (26) expr -> expr . MINUS term
+    (27) expr -> expr . LT term
+    (28) expr -> expr . GT term
+    (29) expr -> expr . LE term
+    (30) expr -> expr . GE term
+    (31) expr -> expr . EQ term
+    (32) expr -> expr . NEQ term
+
+    RPAREN          reduce using rule 40 (args -> args COMMA expr .)
+    COMMA           reduce using rule 40 (args -> args COMMA expr .)
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    LT              shift and go to state 29
+    GT              shift and go to state 30
+    LE              shift and go to state 31
+    GE              shift and go to state 32
+    EQ              shift and go to state 33
+    NEQ             shift and go to state 34
+
+
+state 80
+
+    (17) statement -> IF LPAREN expr RPAREN statement .
+    (18) statement -> IF LPAREN expr RPAREN statement . ELSE statement
+
+  ! shift/reduce conflict for ELSE resolved as shift
+    INT             reduce using rule 17 (statement -> IF LPAREN expr RPAREN statement .)
+    FLOAT           reduce using rule 17 (statement -> IF LPAREN expr RPAREN statement .)
+    CHAR            reduce using rule 17 (statement -> IF LPAREN expr RPAREN statement .)
+    ID              reduce using rule 17 (statement -> IF LPAREN expr RPAREN statement .)
+    IF              reduce using rule 17 (statement -> IF LPAREN expr RPAREN statement .)
+    WHILE           reduce using rule 17 (statement -> IF LPAREN expr RPAREN statement .)
+    RETURN          reduce using rule 17 (statement -> IF LPAREN expr RPAREN statement .)
+    LBRACE          reduce using rule 17 (statement -> IF LPAREN expr RPAREN statement .)
+    NUMBER          reduce using rule 17 (statement -> IF LPAREN expr RPAREN statement .)
+    LPAREN          reduce using rule 17 (statement -> IF LPAREN expr RPAREN statement .)
+    $end            reduce using rule 17 (statement -> IF LPAREN expr RPAREN statement .)
+    RBRACE          reduce using rule 17 (statement -> IF LPAREN expr RPAREN statement .)
+    ELSE            shift and go to state 84
+
+  ! ELSE            [ reduce using rule 17 (statement -> IF LPAREN expr RPAREN statement .) ]
+
+
+state 81
+
+    (19) statement -> WHILE LPAREN expr RPAREN statement .
+
+    INT             reduce using rule 19 (statement -> WHILE LPAREN expr RPAREN statement .)
+    FLOAT           reduce using rule 19 (statement -> WHILE LPAREN expr RPAREN statement .)
+    CHAR            reduce using rule 19 (statement -> WHILE LPAREN expr RPAREN statement .)
+    ID              reduce using rule 19 (statement -> WHILE LPAREN expr RPAREN statement .)
+    IF              reduce using rule 19 (statement -> WHILE LPAREN expr RPAREN statement .)
+    WHILE           reduce using rule 19 (statement -> WHILE LPAREN expr RPAREN statement .)
+    RETURN          reduce using rule 19 (statement -> WHILE LPAREN expr RPAREN statement .)
+    LBRACE          reduce using rule 19 (statement -> WHILE LPAREN expr RPAREN statement .)
+    NUMBER          reduce using rule 19 (statement -> WHILE LPAREN expr RPAREN statement .)
+    LPAREN          reduce using rule 19 (statement -> WHILE LPAREN expr RPAREN statement .)
+    $end            reduce using rule 19 (statement -> WHILE LPAREN expr RPAREN statement .)
+    RBRACE          reduce using rule 19 (statement -> WHILE LPAREN expr RPAREN statement .)
+    ELSE            reduce using rule 19 (statement -> WHILE LPAREN expr RPAREN statement .)
+
+
+state 82
+
+    (4) external_declaration -> type ID LPAREN params RPAREN block .
+
+    INT             reduce using rule 4 (external_declaration -> type ID LPAREN params RPAREN block .)
+    FLOAT           reduce using rule 4 (external_declaration -> type ID LPAREN params RPAREN block .)
+    CHAR            reduce using rule 4 (external_declaration -> type ID LPAREN params RPAREN block .)
+    ID              reduce using rule 4 (external_declaration -> type ID LPAREN params RPAREN block .)
+    IF              reduce using rule 4 (external_declaration -> type ID LPAREN params RPAREN block .)
+    WHILE           reduce using rule 4 (external_declaration -> type ID LPAREN params RPAREN block .)
+    RETURN          reduce using rule 4 (external_declaration -> type ID LPAREN params RPAREN block .)
+    LBRACE          reduce using rule 4 (external_declaration -> type ID LPAREN params RPAREN block .)
+    NUMBER          reduce using rule 4 (external_declaration -> type ID LPAREN params RPAREN block .)
+    LPAREN          reduce using rule 4 (external_declaration -> type ID LPAREN params RPAREN block .)
+    $end            reduce using rule 4 (external_declaration -> type ID LPAREN params RPAREN block .)
+
+
+state 83
+
+    (6) params -> params COMMA param .
+
+    RPAREN          reduce using rule 6 (params -> params COMMA param .)
+    COMMA           reduce using rule 6 (params -> params COMMA param .)
+
+
+state 84
+
+    (18) statement -> IF LPAREN expr RPAREN statement ELSE . statement
+    (13) statement -> . type ID ASSIGN expr SEMICOLON
+    (14) statement -> . type ID SEMICOLON
+    (15) statement -> . ID ASSIGN expr SEMICOLON
+    (16) statement -> . block
+    (17) statement -> . IF LPAREN expr RPAREN statement
+    (18) statement -> . IF LPAREN expr RPAREN statement ELSE statement
+    (19) statement -> . WHILE LPAREN expr RPAREN statement
+    (20) statement -> . RETURN expr SEMICOLON
+    (21) statement -> . expr SEMICOLON
+    (22) type -> . INT
+    (23) type -> . FLOAT
+    (24) type -> . CHAR
+    (10) block -> . LBRACE statements RBRACE
+    (25) expr -> . expr PLUS term
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr LT term
+    (28) expr -> . expr GT term
+    (29) expr -> . expr LE term
+    (30) expr -> . expr GE term
+    (31) expr -> . expr EQ term
+    (32) expr -> . expr NEQ term
+    (33) expr -> . term
+    (34) term -> . term MULTIPLY factor
+    (35) term -> . term DIVIDE factor
+    (36) term -> . factor
+    (37) factor -> . NUMBER
+    (38) factor -> . ID
+    (39) factor -> . ID LPAREN args RPAREN
+    (43) factor -> . LPAREN expr RPAREN
+
+    ID              shift and go to state 5
+    IF              shift and go to state 13
+    WHILE           shift and go to state 14
+    RETURN          shift and go to state 15
+    INT             shift and go to state 9
+    FLOAT           shift and go to state 10
+    CHAR            shift and go to state 11
+    LBRACE          shift and go to state 16
+    NUMBER          shift and go to state 19
+    LPAREN          shift and go to state 6
+
+    expr                           shift and go to state 12
+    statement                      shift and go to state 85
+    type                           shift and go to state 40
+    block                          shift and go to state 7
+    term                           shift and go to state 17
+    factor                         shift and go to state 18
+
+state 85
+
+    (18) statement -> IF LPAREN expr RPAREN statement ELSE statement .
+
+    INT             reduce using rule 18 (statement -> IF LPAREN expr RPAREN statement ELSE statement .)
+    FLOAT           reduce using rule 18 (statement -> IF LPAREN expr RPAREN statement ELSE statement .)
+    CHAR            reduce using rule 18 (statement -> IF LPAREN expr RPAREN statement ELSE statement .)
+    ID              reduce using rule 18 (statement -> IF LPAREN expr RPAREN statement ELSE statement .)
+    IF              reduce using rule 18 (statement -> IF LPAREN expr RPAREN statement ELSE statement .)
+    WHILE           reduce using rule 18 (statement -> IF LPAREN expr RPAREN statement ELSE statement .)
+    RETURN          reduce using rule 18 (statement -> IF LPAREN expr RPAREN statement ELSE statement .)
+    LBRACE          reduce using rule 18 (statement -> IF LPAREN expr RPAREN statement ELSE statement .)
+    NUMBER          reduce using rule 18 (statement -> IF LPAREN expr RPAREN statement ELSE statement .)
+    LPAREN          reduce using rule 18 (statement -> IF LPAREN expr RPAREN statement ELSE statement .)
+    $end            reduce using rule 18 (statement -> IF LPAREN expr RPAREN statement ELSE statement .)
+    RBRACE          reduce using rule 18 (statement -> IF LPAREN expr RPAREN statement ELSE statement .)
+    ELSE            reduce using rule 18 (statement -> IF LPAREN expr RPAREN statement ELSE statement .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for ELSE in state 80 resolved as shift
