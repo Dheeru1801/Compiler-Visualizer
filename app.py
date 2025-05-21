@@ -63,16 +63,20 @@ def analyze():
         # Lexical Analysis (for tokens display only)
         lexer = Lexer(code)
         tokens = lexer.tokenize()
+
         # Syntax Analysis (LALR, both AST and parse tree)
         ast, parse_tree = parse_with_tree(code)
+
         # Semantic Analysis
         analyzer = SemanticAnalyzer()
         symbol_table = analyzer.analyze(ast)
+
         # Generate AST and Parse Tree visualizations
         ast_graph = create_tree_graph(ast)
         ast_svg = ast_graph.create_svg().decode('utf-8')
         parse_tree_graph = create_tree_graph(parse_tree, is_parse_tree=True)
         parse_tree_svg = parse_tree_graph.create_svg().decode('utf-8')
+        
         # Add AST to_dict output as pretty JSON
         ast_dict = ast.to_dict() if hasattr(ast, 'to_dict') else {}
         # Add parse table
@@ -93,3 +97,4 @@ def analyze():
 
 if __name__ == '__main__':
     app.run(debug=True) 
+    
