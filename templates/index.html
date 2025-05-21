@@ -214,6 +214,56 @@
                 min-height: 120px;
             }
         }
+        .visualization-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #e3e3e3;
+        }
+
+        .visualization-container svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .fullscreen-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 12px;
+            font-size: 13px;
+            border-radius: 5px;
+            border: 1px solid #1976d2;
+            background: #e3f2fd;
+            color: #1976d2;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .fullscreen-btn:hover {
+            background: #bbdefb;
+        }
+
+        .visualization-container:fullscreen {
+            background: white;
+            padding: 20px;
+        }
+
+        .visualization-container:fullscreen svg {
+            max-width: none;
+            height: auto;
+            transform-origin: top left;
+        }
+
+        .visualization-container:fullscreen .fullscreen-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
     </style>
 </head>
 <body>
@@ -253,10 +303,18 @@ int main() {
             </div>
             <div id="ast-tab" class="tab-content">
                 <button id="toggleAstMode" style="margin-bottom:10px;padding:4px 12px;font-size:13px;border-radius:5px;border:1px solid #1976d2;background:#e3f2fd;color:#1976d2;cursor:pointer;">Show JSON</button>
-                <div id="ast-container"></div>
+                <button id="toggleAstTextMode" style="margin-bottom:10px;margin-left:8px;padding:4px 12px;font-size:13px;border-radius:5px;border:1px solid #1976d2;background:#e3f2fd;color:#1976d2;cursor:pointer;">Show Text</button>
+                <div id="ast-container" class="visualization-container">
+                    <div id="ast-content"></div>
+                    <button class="fullscreen-btn" onclick="toggleFullscreen('ast-container')">Fullscreen</button>
+                </div>
             </div>
             <div id="parse-tab" class="tab-content">
-                <div id="parse-container"></div>
+                <button id="toggleParseTreeTextMode" style="margin-bottom:10px;padding:4px 12px;font-size:13px;border-radius:5px;border:1px solid #1976d2;background:#e3f2fd;color:#1976d2;cursor:pointer;">Show Text</button>
+                <div id="parse-container" class="visualization-container">
+                    <div id="parse-content"></div>
+                    <button class="fullscreen-btn" onclick="toggleFullscreen('parse-container')">Fullscreen</button>
+                </div>
             </div>
             <div id="parsetable-tab" class="tab-content">
                 <div id="parsetable-container"></div>
@@ -292,6 +350,10 @@ int main() {
         let astMode = 'svg';
         let astSVG = '';
         let astDict = {};
+        let astText = '';
+        let parseTreeMode = 'svg';
+        let parseTreeSVG = '';
+        let parseTreeText = '';
 
         function analyzeCode() {
             const code = document.getElementById('codeInput').value;
@@ -325,20 +387,35 @@ int main() {
                 // Store AST SVG and dict for toggling
                 astSVG = data.ast_svg;
                 astDict = data.ast_dict;
+                astText = data.ast_text;
                 astMode = 'svg';
                 const astContainer = document.getElementById('ast-container');
-                if (astContainer) {
-                    astContainer.innerHTML = astSVG;
+                const astContent = document.getElementById('ast-content');
+                if (astContent) {
+                    astContent.innerHTML = astSVG;
                 }
                 const toggleAstBtn = document.getElementById('toggleAstMode');
                 if (toggleAstBtn) {
                     toggleAstBtn.textContent = 'Show JSON';
                 }
+                const toggleAstTextBtn = document.getElementById('toggleAstTextMode');
+                if (toggleAstTextBtn) {
+                    toggleAstTextBtn.textContent = 'Show Text';
+                }
 
                 // Display Parse Tree
+                parseTreeSVG = data.parse_tree_svg;
+                parseTreeText = data.parse_tree_text;
+                parseTreeMode = 'svg';
+
                 const parseContainer = document.getElementById('parse-container');
-                if (parseContainer) {
-                    parseContainer.innerHTML = data.parse_tree_svg;
+                const parseContent = document.getElementById('parse-content');
+                if (parseContent) {
+                    parseContent.innerHTML = parseTreeSVG;
+                }
+                const toggleParseTreeTextBtn = document.getElementById('toggleParseTreeTextMode');
+                if (toggleParseTreeTextBtn) {
+                    toggleParseTreeTextBtn.textContent = 'Show Text';
                 }
 
                 // Display Parse Table
@@ -452,16 +529,106 @@ int main() {
         }
 
         // Toggle AST view
-        document.getElementById('toggleAstMode').onclick = function() {
-            astMode = (astMode === 'svg') ? 'json' : 'svg';
-            this.textContent = (astMode === 'svg') ? 'Show JSON' : 'Show SVG';
+        function setAstView() {
             const astContainer = document.getElementById('ast-container');
+            const astContent = document.getElementById('ast-content');
             if (astMode === 'svg') {
-                astContainer.innerHTML = astSVG;
-            } else {
-                astContainer.innerHTML = `<pre style="font-size:13px;line-height:1.3;background:#f8fafc;color:#222;padding:12px;border-radius:8px;overflow-x:auto;">${JSON.stringify(astDict, null, 2)}</pre>`;
+                astContent.innerHTML = astSVG;
+            } else if (astMode === 'json') {
+                astContent.innerHTML = `<pre style="font-size:13px;line-height:1.3;background:#f8fafc;color:#222;padding:12px;border-radius:8px;overflow-x:auto;">${JSON.stringify(astDict, null, 2)}</pre>`;
+            } else if (astMode === 'text') {
+                astContent.innerHTML = `<pre style="font-size:13px;line-height:1.3;background:#f8fafc;color:#222;padding:12px;border-radius:8px;overflow-x:auto;">${astText}</pre>`;
             }
-        };
+        }
+        document.getElementById('toggleAstMode').onclick = function () {
+                if (astMode === 'svg') {
+                    astMode = 'json';
+                    this.textContent = 'Show SVG';
+                } else if (astMode === 'json') {
+                    astMode = 'svg';
+                    this.textContent = 'Show JSON';
+                } else if (astMode === 'text') {
+                    astMode = 'svg';
+                    this.textContent = 'Show JSON';
+                }
+                setAstView();
+            };
+            document.getElementById('toggleAstTextMode').onclick = function () {
+                if (astMode !== 'text') {
+                    astMode = 'text';
+                    this.textContent = 'Show SVG/JSON';
+                } else {
+                    astMode = 'svg';
+                    this.textContent = 'Show Text';
+                }
+                setAstView();
+            };
+
+            // Toggle Parse Tree view
+            function setParseTreeView() {
+                const parseContainer = document.getElementById('parse-container');
+                const parseContent = document.getElementById('parse-content');
+                if (parseTreeMode === 'svg') {
+                    parseContent.innerHTML = parseTreeSVG;
+                } else if (parseTreeMode === 'text') {
+                    parseContent.innerHTML = `<pre style="font-size:13px;line-height:1.3;background:#f8fafc;color:#222;padding:12px;border-radius:8px;overflow-x:auto;">${parseTreeText}</pre>`;
+                }
+            }
+            document.getElementById('toggleParseTreeTextMode').onclick = function () {
+                if (parseTreeMode !== 'text') {
+                    parseTreeMode = 'text';
+                    this.textContent = 'Show SVG';
+                } else {
+                    parseTreeMode = 'svg';
+                    this.textContent = 'Show Text';
+                }
+                setParseTreeView();
+            };
+
+        function toggleFullscreen(containerId) {
+            const container = document.getElementById(containerId);
+            
+            if (!document.fullscreenElement) {
+                // Enter fullscreen
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) { // Safari
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) { // IE11
+                    container.msRequestFullscreen();
+                }
+                container.querySelector('.fullscreen-btn').textContent = 'Exit Fullscreen';
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) { // Safari
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { // IE11
+                    document.msExitFullscreen();
+                }
+                container.querySelector('.fullscreen-btn').textContent = 'Fullscreen';
+            }
+        }
+
+        // Add event listeners for fullscreen changes
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+        function handleFullscreenChange() {
+            const containers = ['ast-container', 'parse-container'];
+            containers.forEach(containerId => {
+                const container = document.getElementById(containerId);
+                if (container) {
+                    const btn = container.querySelector('.fullscreen-btn');
+                    if (btn) {
+                        btn.textContent = document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen';
+                    }
+                }
+            });
+        }
     </script>
 </body>
 </html> 

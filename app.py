@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 from compiler.lexer import Lexer
 
-from compiler.lalr_parser import parse_with_tree, ASTNode, ParseTreeNode
+# from compiler.lalr_parser import parse_with_tree, ASTNode, ParseTreeNode
+from compiler.lalr_parser import parse_with_tree, ASTNode, ParseTreeNode, ast_to_text, parse_tree_to_text
 from compiler.semantic_analyzer import SemanticAnalyzer
 from compiler.ir_generator import generate_ir
 import pydot
@@ -83,6 +84,10 @@ def analyze():
         parse_table = get_parse_table()
         # Generate IR
         ir = generate_ir(ast)
+
+        # Generate text representations
+        ast_text = ast_to_text(ast)
+        parse_tree_text = parse_tree_to_text(parse_tree)
         return jsonify({
             'tokens': [token.to_dict() for token in tokens],
             'ast_svg': ast_svg,
@@ -90,7 +95,9 @@ def analyze():
             'symbol_table': symbol_table,
             'ast_dict': ast_dict,
             'parse_table': parse_table,
-            'ir': ir
+            'ir': ir,
+            'ast_text': ast_text,
+            'parse_tree_text': parse_tree_text
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 400

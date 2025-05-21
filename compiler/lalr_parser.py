@@ -589,3 +589,39 @@ def parse_with_tree(code):
     if isinstance(ast, list):
         ast = ASTNode('Program', children=ast)
     return ast, parse_tree_root 
+
+def ast_to_text(node, prefix='', is_last=True):
+    if node is None:
+        return ''
+    lines = []
+    connector = '└── ' if is_last else '├── '
+    node_label = node.type
+    if node.value is not None:
+        if isinstance(node.value, dict):
+            for k, v in node.value.items():
+                node_label += f"\n{prefix}{'    ' if is_last else '│   '}{k}: {repr(v)}"
+        else:
+            node_label += f": {repr(node.value)}"
+    lines.append(f"{prefix}{connector}{node_label}")
+    child_prefix = prefix + ('    ' if is_last else '│   ')
+    children = getattr(node, 'children', [])
+    for i, child in enumerate(children):
+        is_child_last = (i == len(children) - 1)
+        lines.append(ast_to_text(child, child_prefix, is_child_last))
+    return '\n'.join([line for line in lines if line.strip() not in ['└──', '├──']])
+
+def parse_tree_to_text(node, prefix='', is_last=True):
+    if node is None:
+        return ''
+    lines = []
+    connector = '└── ' if is_last else '├── '
+    node_label = node.rule
+    if node.value is not None:
+        node_label += f" ({node.value})"
+    lines.append(f"{prefix}{connector}{node_label}")
+    child_prefix = prefix + ('    ' if is_last else '│   ')
+    children = getattr(node, 'children', [])
+    for i, child in enumerate(children):
+        is_child_last = (i == len(children) - 1)
+        lines.append(parse_tree_to_text(child, child_prefix, is_child_last))
+    return '\n'.join([line for line in lines if line.strip() not in ['└──', '├──']]) 
