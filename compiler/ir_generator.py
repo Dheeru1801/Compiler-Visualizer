@@ -95,7 +95,10 @@ def generate_ir(ast):
             return node.value
         # Number node: return its value
         elif node.type == 'Number':
-            return node.value
+            return str(node.value)
+        # String node: return its value with quotes
+        elif node.type == 'String':
+            return f'"{node.value}"'
         # Binary operation (arithmetic): generate IR for left/right, emit temp
         elif node.type == 'BinaryOp':
             left = visit(node.children[0])
@@ -165,4 +168,4 @@ def generate_ir(ast):
 
     # Start IR generation from the root AST node
     visit(ast)
-    return ir 
+    return ir

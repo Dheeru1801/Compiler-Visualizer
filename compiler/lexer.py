@@ -20,7 +20,7 @@ class Token:
 tokens = (
     'INT', 'FLOAT', 'CHAR',
     'IF', 'ELSE', 'WHILE', 'FOR', 'RETURN',
-    'ID', 'NUMBER',
+    'ID', 'NUMBER', 'STRING',
     'PLUS', 'MINUS', 'MULTIPLY', 'DIVIDE',
     'LPAREN', 'RPAREN',
     'LBRACE', 'RBRACE',
@@ -106,6 +106,11 @@ def t_NUMBER(t):
     t.value = int(t.value)
     return t
 
+def t_STRING(t):
+    r'"[^"]*"'
+    t.value = t.value[1:-1]  # Remove the quotes
+    return t
+
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
@@ -133,4 +138,4 @@ class Lexer:
                 break
             token = Token(tok.type, tok.value, tok.lineno, tok.lexpos - self.lexer.lexdata.rfind('\n', 0, tok.lexpos))
             tokens.append(token)
-        return tokens 
+        return tokens

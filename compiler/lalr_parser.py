@@ -10,7 +10,7 @@ import ply.yacc as yacc
 tokens = (
     'INT', 'FLOAT', 'CHAR',
     'IF', 'ELSE', 'WHILE', 'FOR', 'RETURN',
-    'ID', 'NUMBER',
+    'ID', 'NUMBER', 'STRING',
     'PLUS', 'MINUS', 'MULTIPLY', 'DIVIDE',
     'LPAREN', 'RPAREN',
     'LBRACE', 'RBRACE',
@@ -75,6 +75,12 @@ def t_ID(t):
 def t_NUMBER(t):
     r'\d+'
     t.value = int(t.value)
+    return t
+
+# New token for string literals
+def t_STRING(t):
+    r'"([^"\\]*(\\.[^"\\]*)*)"'
+    t.value = t.value[1:-1]  # Remove the surrounding quotes
     return t
 
 t_ignore = ' \t\r\n'
@@ -489,6 +495,7 @@ def p_term_factor(p):
 
 def p_factor(p):
     '''factor : NUMBER
+              | STRING
               | ID
               | LPAREN expr RPAREN
               | ID LPAREN args RPAREN'''
@@ -497,16 +504,20 @@ def p_factor(p):
             p[0] = ASTNode('Number', value=p[1])
             p.slice[0].parse_tree = make_parse_tree_node('number', [], p[1])
         elif isinstance(p[1], str):
-            p[0] = ASTNode('Variable', value=p[1])
-            p.slice[0].parse_tree = make_parse_tree_node('id', [], p[1])
+            if p.slice[1].type == 'STRING':
+                p[0] = ASTNode('String', value=p[1])
+                p.slice[0].parse_tree = make_parse_tree_node('string', [], p[1])
+            else:
+                p[0] = ASTNode('Variable', value=p[1])
+                p.slice[0].parse_tree = make_parse_tree_node('id', [], p[1])
     elif len(p) == 4:
-        if p[1] == '(':  # Parenthesized expression
-            p[0] = p[2]
-            p.slice[0].parse_tree = make_parse_tree_node('paren', [
-                get_parse_tree(p.slice[1]),
-                get_parse_tree(p.slice[2]),
-                get_parse_tree(p.slice[3])
-            ])
+        # Parenthesized expression
+        p[0] = p[2]
+        p.slice[0].parse_tree = make_parse_tree_node('paren', [
+            get_parse_tree(p.slice[1]),
+            get_parse_tree(p.slice[2]),
+            get_parse_tree(p.slice[3])
+        ])
     elif len(p) == 5:  # Function call
         p[0] = ASTNode('Call', value=p[1], children=p[3])
         p.slice[0].parse_tree = make_parse_tree_node('call', [
@@ -606,9 +617,13 @@ def ast_to_text(node, prefix='', is_last=True):
     child_prefix = prefix + ('    ' if is_last else '│   ')
     children = getattr(node, 'children', [])
     for i, child in enumerate(children):
+        if child is None:
+            continue  # Skip None children
         is_child_last = (i == len(children) - 1)
-        lines.append(ast_to_text(child, child_prefix, is_child_last))
-    return '\n'.join([line for line in lines if line.strip() not in ['└──', '├──']])
+        child_text = ast_to_text(child, child_prefix, is_child_last)
+        if child_text:  # Only append non-empty strings
+            lines.append(child_text)
+    return '\n'.join([line for line in lines if line and line.strip() not in ['└──', '├──']])
 
 def parse_tree_to_text(node, prefix='', is_last=True):
     if node is None:
@@ -622,6 +637,10 @@ def parse_tree_to_text(node, prefix='', is_last=True):
     child_prefix = prefix + ('    ' if is_last else '│   ')
     children = getattr(node, 'children', [])
     for i, child in enumerate(children):
+        if child is None:
+            continue  # Skip None children
         is_child_last = (i == len(children) - 1)
-        lines.append(parse_tree_to_text(child, child_prefix, is_child_last))
-    return '\n'.join([line for line in lines if line.strip() not in ['└──', '├──']]) 
+        child_text = parse_tree_to_text(child, child_prefix, is_child_last)
+        if child_text:  # Only append non-empty strings
+            lines.append(child_text)
+    return '\n'.join([line for line in lines if line and line.strip() not in ['└──', '├──']])

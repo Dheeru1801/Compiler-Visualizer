@@ -384,10 +384,11 @@ int main() {
                     ).join(' ') + `</div>`;
                 }
 
+                // Display AST
                 // Store AST SVG and dict for toggling
                 astSVG = data.ast_svg;
                 astDict = data.ast_dict;
-                astText = data.ast_text;
+                astText = data.ast_text || "AST text representation not available";
                 astMode = 'svg';
                 const astContainer = document.getElementById('ast-container');
                 const astContent = document.getElementById('ast-content');
@@ -405,7 +406,7 @@ int main() {
 
                 // Display Parse Tree
                 parseTreeSVG = data.parse_tree_svg;
-                parseTreeText = data.parse_tree_text;
+                parseTreeText = data.parse_tree_text || "Parse tree text representation not available";
                 parseTreeMode = 'svg';
 
                 const parseContainer = document.getElementById('parse-container');
@@ -631,4 +632,4 @@ int main() {
         }
     </script>
 </body>
-</html> 
+</html>
