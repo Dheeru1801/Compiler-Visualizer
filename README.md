@@ -54,6 +54,26 @@ A modern, interactive web-based visualizer for the first phases of C compilation
 
 ---
 
+## UI Implementation
+
+The user interface for the C Compiler Visualizer is designed with modern web technologies:
+
+- **Framework**: Built with HTML5, CSS3, and vanilla JavaScript for maximum performance and compatibility.
+- **Layout System**: Uses CSS Grid and Flexbox for responsive layouts that adapt to different screen sizes.
+- **Tabbed Interface**: Custom implementation with event listeners that show/hide content panels when tabs are clicked.
+- **Visualization Integration**:
+  - **SVG Generation**: Dynamic SVG generation for AST and Parse Tree using JavaScript DOM manipulation.
+  - **Token Highlighting**: Custom CSS classes for different token types with color coding.
+  - **Table Generation**: Dynamic HTML table creation for Symbol Table and Parse Table views.
+- **Toggle Functionality**: JavaScript event handlers manage state transitions between different visualization modes.
+- **Responsive Design**: Media queries ensure the UI remains functional on devices of all sizes.
+- **AJAX Requests**: Asynchronous communication with the Flask backend for code analysis without page reloads.
+- **Error Handling**: Elegant error display with descriptive messages when compilation issues occur.
+
+The UI prioritizes clarity and educational value, with each visualization designed to highlight specific aspects of the compilation process.
+
+---
+
 ## Example Code
 
 ```c
@@ -73,7 +93,7 @@ int main() {
 
 ## Screenshots
 
-> _Add screenshots here to showcase the UI and features._
+> _
 
 ---
 
@@ -110,4 +130,4 @@ Pull requests and suggestions are welcome! Please open an issue or PR if you hav
 
 ## License
 
-MIT License
+@Dheeraj Chandra
