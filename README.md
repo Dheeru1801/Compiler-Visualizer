@@ -93,8 +93,9 @@ int main() {
 
 ## Screenshots
 
-> _
-
+> _![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
 ---
 
 ## Project Structure
